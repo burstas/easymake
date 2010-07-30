@@ -12,24 +12,17 @@ EMake就是一个让你从繁重的Makefile维护中解放出来的工具，它�
 
 
 
-
 = Details =
 
-= Features =
-EMake gets its knowledge of how to build your program from the comment macro of the main source file. The comment macro describes how to compile the whole project. You can use "//!" as the Emake macro in your source file, such like you have this line in main.c:
+EMake 从你源代码的宏中得到工程信息。在C代码中使用 "//!" 或者 `"/*!"`作为注释的开头，Emake 就会提取并将该行注释看成 EMake的工程配置信息，比如你的main.c中一行这样的注释:
 {{{
 //! exe: file1.c, file2.c
 }}}
 
-when you call *"emake.py main.c"*, Emake will know this project has three files: file1.c, file2.c and main.c itselfs. and the output mode is "exe" (it can be *"exe/dll/clib/win"*). Then emake will parse all the source files in the project. 
+当你使用 *"emake.py main.c"*时，Emake会知道该项目有三个源文件: file1.c, file2.c 和main.c 自己. 输出的模式是"exe" (还可以是*"exe/dll/clib/win"*). 接着 emake会分析所有源代码并指出，每个源文件总共使用过了哪些头文件（包括那些头文件又使用了哪些新的头文件）. 然后比较它们和obj文件的时间，如果他们任何一个新于OBJ文件的时间戳，那么，这个对应的源代码就需要重新编译，否则跳过。
 
-In the second step, Emake will indicate what header files are used in each source file, and check if the source need to be compiled. (the timestamps of the source file and its header files is newer than the its obj file).
+Emake会调用 gcc来编译工程中的所有文件，然后连接他们输出成指定的文件格式（可执行文件、动态库、静态库、Windows下窗口模式程序。。。）。
 
-At last, Emake will call gcc to compile the source files in the project, and then link them to generate the executable file (or dynamic/static library).
-
-Emake gets its knowledge directly from the source file comments, which avoid writing another Makefile. You can describe project source files, compiler flags, include/library directories, linking mode, ... etc directly in your C files with a few comment macro.
-
-Providing a completely *new way to build projects*, emake is very suitable for small or medium projects, You can describe your project much simply than traditional GNU make, then detect dependences, at last build it. It is easy to make MAKE easy.
 
 =Installation=
 
@@ -41,7 +34,7 @@ use *"./emake.py -install"* to install. The installation will copy itself into /
 ===Install EMake in Windows with mingw===
 copy emake.py into the root directory of mingw, in order to find gcc.exe in ".\bin\" directory. then you can execute as "c:\mingw\emake.py"
 
-
+下载地址：http://code.google.com/p/easymake/
 
 =Examples=
 
@@ -176,4 +169,3 @@ gcc -I../ffmpeg/include -I../ogg/include -c src2.c -o src2.o
 gcc -I../ffmpeg/include -I../ogg/include -c main.c -o main.o
 gcc -L../ffmpeg/lib -L../ogg/lib src1.o src2.o main.o -o main
 }}}
-
