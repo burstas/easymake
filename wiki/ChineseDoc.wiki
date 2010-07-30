@@ -1,0 +1,21 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+EMake 是一个 Make工具，用来从源文件输出可执行文件。EMake直接从源文件的注释中提取EMake宏指令，来确定这个工程有哪些源文件，他们该如何编译（编译参数，或者头文件路径），并且输出成什么格式（可执行，动态库，静态库，Windows下的窗口模式可执行）。
+
+GNU Make是一个强大的工具，但大部分时候我不会去写一个非常大的需要用Makefile的工程，我经常写一些中小项目，代码在2万行以内，甚至更少（比如几百行）。为每个小工程都编写一个新的Makefile（或者修改一下旧的）是一件非常累的事情（当然你也可以写个足够强大的Makefile来应付我说的情况，但并非大多数人的用法）。
+
+因此我所需要的是像Visual Studio工程管理一样简单直观的编译工具，让我简单的：增加源文件，然后编译他们。这这么简单，所有源代码依赖的头文件都会自动被分析出来，一旦更改，就需要编译他们，否则就跳过。所有繁琐的编译参数都有默认值，在大多数情况下你可以不去管他们，而当你需要时，你可以去定制。
+
+EMake就是一个让你从繁重的Makefile维护中解放出来的工具，它并不是一个GNU Make的 Replacement，只是一个合理的补充，让你用代码中的注释宏来精简的描述工程信息，当你源代码改变的时候，你也可以随手改变工程信息，而且你可以用它指定各种详细的编译细节，真正做到简单，并且真切有力。
+
+
+
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
