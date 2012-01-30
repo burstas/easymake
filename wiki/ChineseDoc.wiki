@@ -315,25 +315,13 @@ emake.ini里面default和msvc两个区间名都是特殊区间，default用来�
 
 {{{
 [msvc]
-VS100COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\Tools\
-WindowsSDKDir=C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\
-TARGET_CPU=x86
-CURRENT_CPU=x64
-Configuration=Debug
-FrameworkVersion=v4.0.30319
-CL=/AI C:\Windows\Microsoft.NET\Framework64\v4.0.30319
-TARGET_PLATFORM=WIN7
-sdkdir=C:\Program Files\Microsoft SDKs\Windows\v7.1\
-PROCESSOR_ARCHITECTURE=AMD64
-PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 23 Stepping 6, GenuineIntel
-PROCESSOR_REVISION=1706
-OS=Windows_NT
-LIBPATH=C:\Windows\Microsoft.NET\Framework\v4.0.30319;C:\Windows\Microsoft.NET\Framework\v3.5;C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\Lib;
-LIB=C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\LIB;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\lib;
-INCLUDE=C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\INCLUDE;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include;
-PATH=C:\Windows\Microsoft.NET\Framework\v4.0.30319;C:\Windows\Microsoft.NET\Framework\v3.5;;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\Tools;;C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\Bin;C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\Bin\VCPackages;;C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\NETFX 4.0 Tools;C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Microsoft Windows Performance Toolkit\;d:\dev\local\bin
+VSINSTALLDIR=C:\Program Files (x86)\Microsoft Visual Studio 8
+VCINSTALLDIR=%VSINSTALLDIR%\VC
+FrameworkDir=C:\Windows\Microsoft.NET\Framework
+INCLUDE=%VCINSTALLDIR%\ATLMFC\INCLUDE;%VCINSTALLDIR%\INCLUDE;%VCINSTALLDIR%\PlatformSDK\include;%VSINSTALLDIR%\SDK\v2.0\include;d:\dev\local\include;d:\dev\dxsdk\include
+LIB=%VCINSTALLDIR%\ATLMFC\LIB;%VCINSTALLDIR%\LIB;%VCINSTALLDIR%\PlatformSDK\lib;%VSINSTALLDIR%\SDK\v2.0\lib;d:\dev\local\lib;d:\dev\dxsdk\lib\x86
+LIBPATH=C:\Windows\Microsoft.NET\Framework\v2.0.50727;%VCINSTALLDIR%\ATLMFC\LIB;d:\dev\local\lib
+PATH=%VSINSTALLDIR%\Common7\IDE;%VCINSTALLDIR%\BIN;%VSINSTALLDIR%\Common7\Tools;%VSINSTALLDIR%\Common7\Tools\bin;%VCINSTALLDIR%\PlatformSDK\bin;%VSINSTALLDIR%\SDK\v2.0\bin;C:\Windows\Microsoft.NET\Framework\v2.0.50727;%VCINSTALLDIR%\VCPackages;c:\Windows\system32
 }}}
 
-可以发现，里面都是环境变量的定义，这些环境定义可以从vcvars32.bat里面获得。也可以进入VC命令行打set命令看看该命令行定义了哪些和vc相关的环境变量。
-
-
+可以发现，里面都是环境变量的定义，这些环境定义可以从vcvars32.bat里面获得。也可以进入VC命令行打set命令看看该命令行定义了哪些和vc相关的环境变量，支持环境变量宏展开。
