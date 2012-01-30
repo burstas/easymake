@@ -238,7 +238,7 @@ gcc -L../ffmpeg/lib -L../ogg/lib obj/src1.o obj/src2.o obj/main.o -o main
 
  * 作用：添加要连接的库
  * 格式：//! link: stdc++, m, pthread
- * 注意：如果连接内容是有扩展名的，如abc.o，那么将连接该文件；如果没有扩展名，比如 *pthread*，那么将视为一个libpthread.a库，使用 -lpthread来连接。
+ * 注意：如果连接内容是有扩展名的，如abc.o，那么将连接该文件；如果没有扩展名，比如 pthread，那么将视为一个libpthread.a库，使用 -lpthread来连接。
 
 ===mode===
 
@@ -258,7 +258,7 @@ gcc -L../ffmpeg/lib -L../ogg/lib obj/src1.o obj/src2.o obj/main.o -o main
 
  * 作用：指定临时文件路径，如.o文件以及.p文件。
  * 格式：//! int: path
- * 注意：默认临时文件放在当前文件夹，一般可以改为*//! int:obj*，让临时文件保存到 ./obj/目录下面去。
+ * 注意：默认临时文件放在当前文件夹，一般可以改为//! int:obj，让临时文件保存到 ./obj/目录下面去。
 
 ===flag===
 
@@ -270,7 +270,7 @@ gcc -L../ffmpeg/lib -L../ogg/lib obj/src1.o obj/src2.o obj/main.o -o main
 
  * 作用：导入 emake.ini里面的某项配置
  * 格式：//! import: name
- * 注意：需要在emake.ini里面描述对应的编译配置，比如link, inc, lib, flag等。这样一次性import就可以省掉重复写很多inc, lib，比如 *//! import: ffmpeg*这样就一次性导入了 ffmpeg的编译环境了。
+ * 注意：需要在emake.ini里面描述对应的编译配置，比如link, inc, lib, flag等。这样一次性import就可以省掉重复写很多inc, lib，比如 //! import: ffmpeg这样就一次性导入了 ffmpeg的编译环境了。
 
 ===export===
 
