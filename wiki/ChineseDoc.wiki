@@ -301,8 +301,39 @@ lib=d:/dev/local/opt/ffmpeg/lib
 link=avcodec, avdevice, avfilter, avformat, avutil, postproc, swscale
 }}}
 
-* `[default]` 中的home指明了mingw的路径(可以通过 `$home/bin/gcc`定位到gcc的路径)，默认的home是 ./, /usr/bin, /usr/local/bin，如果是这三个之一，可以不用写 home。default的link, flag等其他参数同前面的说明。
+ * `[default]` 中的home指明了mingw的路径(可以通过 `$home/bin/gcc`定位到gcc的路径)，默认的home是 ./, /usr/bin, /usr/local/bin，如果是这三个之一，可以不用写 home。default的link, flag等其他参数同前面的说明。
 
-* `[local]` 定义了一个可以被 import的配置区，如果源程序内有 `//! import: local`那么 `local`下面的 include, lib两项配置就会被加入到项目中区。
+ * `[local]` 定义了一个可以被 import的配置区，如果源程序内有 `//! import: local`那么 `local`下面的 include, lib两项配置就会被加入到项目中区。
 
-* `[ffmpeg]` 定义了另外一个可以被 import导入的配置区，如果源程序内有 `//! import: ffmpeg` 那么`ffmpeg`下面的 include, lib, link等定义就会被加到该项目中去。
+ * `[ffmpeg]` 定义了另外一个可以被 import导入的配置区，如果源程序内有 `//! import: ffmpeg` 那么`ffmpeg`下面的 include, lib, link等定义就会被加到该项目中去。
+
+该配置文件emake.ini可以放在 emake.py同一个目录，运行emake时将会被加载。而如果是在unix下面，如果存在 ~/.emake.ini，那它里面的内容也会同时被加载。
+
+===MSVC环境配置===
+
+emake.ini里面default和msvc两个区间名都是特殊区间，default用来定义全局公共环境，msvc用来定义vc的环境，如果打算导出带有.lib的动态库则需要定义下面内容，否则可以忽略：
+
+{{{
+[msvc]
+VS100COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\Tools\
+WindowsSDKDir=C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\
+TARGET_CPU=x86
+CURRENT_CPU=x64
+Configuration=Debug
+FrameworkVersion=v4.0.30319
+CL=/AI C:\Windows\Microsoft.NET\Framework64\v4.0.30319
+TARGET_PLATFORM=WIN7
+sdkdir=C:\Program Files\Microsoft SDKs\Windows\v7.1\
+PROCESSOR_ARCHITECTURE=AMD64
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 23 Stepping 6, GenuineIntel
+PROCESSOR_REVISION=1706
+OS=Windows_NT
+LIBPATH=C:\Windows\Microsoft.NET\Framework\v4.0.30319;C:\Windows\Microsoft.NET\Framework\v3.5;C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\Lib;
+LIB=C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\LIB;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\lib;
+INCLUDE=C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\INCLUDE;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\include;
+PATH=C:\Windows\Microsoft.NET\Framework\v4.0.30319;C:\Windows\Microsoft.NET\Framework\v3.5;;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\Tools;;C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\Bin;C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\Bin\VCPackages;;C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\NETFX 4.0 Tools;C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Microsoft Windows Performance Toolkit\;d:\dev\local\bin
+}}}
+
+可以发现，里面都是环境变量的定义，这些环境定义可以从vcvars32.bat里面获得。也可以进入VC命令行打set命令看看该命令行定义了哪些和vc相关的环境变量。
+
+
