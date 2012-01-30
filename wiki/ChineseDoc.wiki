@@ -13,6 +13,7 @@ EMake就是一个让你从繁重的Makefile维护中解放出来的工具，它�
 
 
 
+
 = Details =
 
 EMake 从你源代码的宏中得到工程信息。在C代码中使用 "//!" 或者 `"/*!"`作为注释的开头，Emake 就会提取并将该行注释看成 EMake的工程配置信息，比如你的main.c中一行这样的注释:
@@ -23,6 +24,7 @@ EMake 从你源代码的宏中得到工程信息。在C代码中使用 "//!" 或
 当你使用 *"emake.py main.c"*时，Emake会知道该项目有三个源文件: file1.c, file2.c 和main.c 自己. 输出的模式是"exe" (还可以是*"exe/dll/clib/win"*). 接着 emake会分析所有源代码并指出，每个源文件总共使用过了哪些头文件（包括那些头文件又使用了哪些新的头文件）. 然后比较它们和obj文件的时间，如果他们任何一个新于OBJ文件的时间戳，那么，这个对应的源代码就需要重新编译，否则跳过。
 
 Emake会调用 gcc来编译工程中的所有文件，然后连接他们输出成指定的文件格式（可执行文件、动态库、静态库、Windows下窗口模式程序。。。）。
+
 
 
 
@@ -37,6 +39,7 @@ EMake是用Python来开发的，只有一个单一的emake.py文件。你可以�
 将emake.py拷贝到mingw的根目录（就是包含bin, include, lib等的mingw根目录）。因为默认情况下 emake.py会倒 “.\bin\”路径下查找 gcc.exe。
 
 下载地址：http://code.google.com/p/easymake/
+
 
 
 
@@ -213,6 +216,7 @@ gcc -I../ffmpeg/include -I../ogg/include -c src2.c -o obj/src2.o
 gcc -I../ffmpeg/include -I../ogg/include -c main.c -o obj/main.o
 gcc -L../ffmpeg/lib -L../ogg/lib obj/src1.o obj/src2.o obj/main.o -o main
 }}}
+
 
 
 
