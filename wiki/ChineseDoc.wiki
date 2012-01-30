@@ -217,7 +217,7 @@ gcc -I../ffmpeg/include -I../ogg/include -c main.c -o obj/main.o
 gcc -L../ffmpeg/lib -L../ogg/lib obj/src1.o obj/src2.o obj/main.o -o main
 }}}
 
-
+此外还有其他一些宏可以大大方便你的项目配置，详细见下面的说明。
 
 
 =Documentation=
@@ -281,3 +281,29 @@ gcc -L../ffmpeg/lib -L../ogg/lib obj/src1.o obj/src2.o obj/main.o -o main
  * 作用：导出模式（仅在输出动态链接库时使用）。
  * 格式：//! export: msvc 或者 //! export: 
  * 注意：//! export: 以后将会导出动态库的 .a连接索引文件，而如果后面跟了msvc，则还可以同时导出vc的 .lib连接文件（前提是在emake.ini配置了vc环境）。
+
+===配置文件===
+
+下面一个典型的配置文件：
+{{{
+[default]
+home=/opt/mingw-x86/
+flag=-Wall
+link=stdc++, winmm, wsock32, opengl32, gdi32, glu32, ws2_32, user32
+
+[local]
+include=d:/dev/local/include
+lib=d:/dev/local/lib
+
+[ffmpeg]
+include=d:/dev/local/opt/ffmpeg/include
+lib=d:/dev/local/opt/ffmpeg/lib
+link=avcodec, avdevice, avfilter, avformat, avutil, postproc, swscale
+}}}
+
+* [default] 中的home指明了mingw的路径(可以通过 $home/bin/gcc定位到gcc的路径)，默认的home是 ./, /usr/bin, /usr/local/bin，如果是这三个之一，可以不用写 home。default的link, flag等其他参数同前面的说明。
+
+* [local] 定义了一个可以被 import的配置区，如果源程序内有 * //! import: local * 那么 [local]下面的 include, lib两项配置就会被加入到项目中区。
+
+* [ffmpeg] 定义了另外一个可以被 import导入的配置区，如果源程序内有 * //! import: ffmpeg * 那么[ffmpeg]下面的 include, lib, link等定义就会被加到该项目中去。
+
