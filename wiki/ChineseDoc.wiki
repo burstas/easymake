@@ -1,5 +1,5 @@
-#summary One-sentence summary of this page.
 #labels Featured,Phase-Deploy,Phase-Design,Phase-Implementation
+Easymake 中文使用手册
 
 = Introduction =
 
