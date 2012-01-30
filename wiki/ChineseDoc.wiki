@@ -25,6 +25,7 @@ EMake 从你源代码的宏中得到工程信息。在C代码中使用 "//!" 或
 Emake会调用 gcc来编译工程中的所有文件，然后连接他们输出成指定的文件格式（可执行文件、动态库、静态库、Windows下窗口模式程序。。。）。
 
 
+
 =Installation=
 
 EMake是用Python来开发的，只有一个单一的emake.py文件。你可以下载tar包，然后将emake.py解压到当前。注意，emake当前只支持gcc，如果你要在windows下编译项目，还需要下载mingw来协同工作。
@@ -36,6 +37,7 @@ EMake是用Python来开发的，只有一个单一的emake.py文件。你可以�
 将emake.py拷贝到mingw的根目录（就是包含bin, include, lib等的mingw根目录）。因为默认情况下 emake.py会倒 “.\bin\”路径下查找 gcc.exe。
 
 下载地址：http://code.google.com/p/easymake/
+
 
 
 =Tutorial=
@@ -213,6 +215,7 @@ gcc -L../ffmpeg/lib -L../ogg/lib obj/src1.o obj/src2.o obj/main.o -o main
 }}}
 
 
+
 =Documentation=
 
 ===src===
@@ -235,7 +238,7 @@ gcc -L../ffmpeg/lib -L../ogg/lib obj/src1.o obj/src2.o obj/main.o -o main
 
  * 作用：添加要连接的库
  * 格式：//! link: stdc++, m, pthread
- * 注意：如果连接内容是有扩展名的，如abc.o，那么将连接该文件；如果没有扩展名，比如*pthread*，那么将视为一个libpthread.a库，使用 -lpthread来连接。
+ * 注意：如果连接内容是有扩展名的，如abc.o，那么将连接该文件；如果没有扩展名，比如 *pthread*，那么将视为一个libpthread.a库，使用 -lpthread来连接。
 
 ===mode===
 
@@ -274,5 +277,3 @@ gcc -L../ffmpeg/lib -L../ogg/lib obj/src1.o obj/src2.o obj/main.o -o main
  * 作用：导出模式（仅在输出动态链接库时使用）。
  * 格式：//! export: msvc 或者 //! export: 
  * 注意：//! export: 以后将会导出动态库的 .a连接索引文件，而如果后面跟了msvc，则还可以同时导出vc的 .lib连接文件（前提是在emake.ini配置了vc环境）。
-
-
