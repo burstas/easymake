@@ -217,20 +217,62 @@ gcc -L../ffmpeg/lib -L../ogg/lib obj/src1.o obj/src2.o obj/main.o -o main
 
 ===src===
 
-作用：声明项目里面的源文件（主文件可以不声明）。
-格式：//! src: file1.c, file2.c, file3.cpp, file4.cpp
-注意：如果不想再一行中写太多源文件，可以用多行 *//! src:*来表示
+ * 作用：声明项目里面的源文件（主文件可以不声明）。
+ * 格式：//! src: file1.c, file2.c, file3.cpp, file4.cpp
+ * 注意：如果不想再一行中写太多源文件，可以用多行 *//! src:*来表示
 
 ===inc===
 
-作用：声明项目的include目录。
-格式：//! inc: ../include, d:/local/dxsdk/include, ../../include
+ * 作用：声明项目的include目录。
+ * 格式：//! inc: ../include, d:/local/dxsdk/include, ../../include
 
 ===lib===
 
-作用：声明项目的library目录。
-格式：//! lib: ../lib, ../../lib
+ * 作用：声明项目的library目录。
+ * 格式：//! lib: ../lib, ../../lib
 
 ===link===
 
-作用
+ * 作用：添加要连接的库
+ * 格式：//! link: stdc++, m, pthread
+ * 注意：如果连接内容是有扩展名的，如abc.o，那么将连接该文件；如果没有扩展名，比如*pthread*，那么将视为一个libpthread.a库，使用 -lpthread来连接。
+
+===mode===
+
+ * 作用：指定输出的模式。
+ * 格式：//! mode: [exe|dll|lib|win]
+ ** *exe* 可执行模式
+ ** *dll* 动态链接库模式
+ ** *lib* 静态链接库模式
+ ** *win* windows程序（无console窗口）。
+
+===out===
+
+ * 作用：指定连接后输出的文件名。
+ * 格式：//! out: name
+ 
+===int===
+
+ * 作用：指定临时文件路径，如.o文件以及.p文件。
+ * 格式：//! int: path
+ * 注意：默认临时文件放在当前文件夹，一般可以改为*//! int:obj*，让临时文件保存到 ./obj/目录下面去。
+
+===flag===
+
+ * 作用：指明 gcc编译时候的其他参数。
+ * 格式：//! flag: -Wall, -O3
+ * 注意：像类似 -O, -pg, -g之类的编译参数可以如此传递过去。
+
+===import===
+
+ * 作用：导入 emake.ini里面的某项配置
+ * 格式：//! import: name
+ * 注意：需要在emake.ini里面描述对应的编译配置，比如link, inc, lib, flag等。这样一次性import就可以省掉重复写很多inc, lib，比如 *//! import: ffmpeg*这样就一次性导入了 ffmpeg的编译环境了。
+
+===export===
+
+ * 作用：导出模式（仅在输出动态链接库时使用）。
+ * 格式：//! export: msvc 或者 //! export: 
+ * 注意：//! export: 以后将会导出动态库的 .a连接索引文件，而如果后面跟了msvc，则还可以同时导出vc的 .lib连接文件（前提是在emake.ini配置了vc环境）。
+
+
