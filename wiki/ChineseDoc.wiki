@@ -248,10 +248,10 @@ gcc -L../ffmpeg/lib -L../ogg/lib obj/src1.o obj/src2.o obj/main.o -o main
 
  * 作用：指定输出的模式。
  * 格式：//! mode: [exe|dll|lib|win]
- ** *exe* 可执行模式
- ** *dll* 动态链接库模式
- ** *lib* 静态链接库模式
- ** *win* windows程序（无console窗口）。
+ * *exe* 可执行模式
+ * *dll* 动态链接库模式
+ * *lib* 静态链接库模式
+ * *win* windows程序（无console窗口）。
 
 ===out===
 
@@ -262,7 +262,7 @@ gcc -L../ffmpeg/lib -L../ogg/lib obj/src1.o obj/src2.o obj/main.o -o main
 
  * 作用：指定临时文件路径，如.o文件以及.p文件。
  * 格式：//! int: path
- * 注意：默认临时文件放在当前文件夹，一般可以改为//! int:obj，让临时文件保存到 ./obj/目录下面去。
+ * 注意：默认临时文件放在当前文件夹，一般可以改为`//! int:obj`，让临时文件保存到 ./obj/目录下面去。
 
 ===flag===
 
@@ -279,7 +279,7 @@ gcc -L../ffmpeg/lib -L../ogg/lib obj/src1.o obj/src2.o obj/main.o -o main
 ===export===
 
  * 作用：导出模式（仅在输出动态链接库时使用）。
- * 格式：//! export: msvc 或者 //! export: 
+ * 格式：`//! export: msvc` 或者 `//! export:` 
  * 注意：//! export: 以后将会导出动态库的 .a连接索引文件，而如果后面跟了msvc，则还可以同时导出vc的 .lib连接文件（前提是在emake.ini配置了vc环境）。
 
 ===配置文件===
@@ -301,9 +301,8 @@ lib=d:/dev/local/opt/ffmpeg/lib
 link=avcodec, avdevice, avfilter, avformat, avutil, postproc, swscale
 }}}
 
-* [default] 中的home指明了mingw的路径(可以通过 $home/bin/gcc定位到gcc的路径)，默认的home是 ./, /usr/bin, /usr/local/bin，如果是这三个之一，可以不用写 home。default的link, flag等其他参数同前面的说明。
+* `[default]` 中的home指明了mingw的路径(可以通过 `$home/bin/gcc`定位到gcc的路径)，默认的home是 ./, /usr/bin, /usr/local/bin，如果是这三个之一，可以不用写 home。default的link, flag等其他参数同前面的说明。
 
-* [local] 定义了一个可以被 import的配置区，如果源程序内有 * //! import: local * 那么 [local]下面的 include, lib两项配置就会被加入到项目中区。
+* `[local]` 定义了一个可以被 import的配置区，如果源程序内有 `//! import: local`那么 `local`下面的 include, lib两项配置就会被加入到项目中区。
 
-* [ffmpeg] 定义了另外一个可以被 import导入的配置区，如果源程序内有 * //! import: ffmpeg * 那么[ffmpeg]下面的 include, lib, link等定义就会被加到该项目中去。
-
+* `[ffmpeg]` 定义了另外一个可以被 import导入的配置区，如果源程序内有 `//! import: ffmpeg` 那么`ffmpeg`下面的 include, lib, link等定义就会被加到该项目中去。
