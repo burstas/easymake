@@ -1,4 +1,5 @@
 #summary One-sentence summary of this page.
+#labels Featured,Phase-Deploy,Phase-Design,Phase-Implementation
 
 = Introduction =
 
@@ -26,20 +27,18 @@ Emake会调用 gcc来编译工程中的所有文件，然后连接他们输出�
 
 =Installation=
 
-EMake is written with python in a single .py file. You can download the tarball and extract emake.py into current folder. Note, emake only supports gcc right now, so if you are under windows, you must download mingw to work with.
+EMake是用Python来开发的，只有一个单一的emake.py文件。你可以下载tar包，然后将emake.py解压到当前。注意，emake当前只支持gcc，如果你要在windows下编译项目，还需要下载mingw来协同工作。
 
 ===Install EMake in Unix===
-use *"./emake.py -install"* to install. The installation will copy itself into /usr/local/bin. It will search gcc in /usr/bin or /usr/local/bin.
+使用 “./emake.py -install” 来安装，emake.py会自己将自己拷贝到/usr/local/bin下面，同时它将会在 /usr/bin, /usr/local/bin下面搜索gcc可执行文件，如果不在这两个目录，需要用 emake.ini手动指定。
 
 ===Install EMake in Windows with mingw===
-copy emake.py into the root directory of mingw, in order to find gcc.exe in ".\bin\" directory. then you can execute as "c:\mingw\emake.py"
+将emake.py拷贝到mingw的根目录（就是包含bin, include, lib等的mingw根目录）。因为默认情况下 emake.py会倒 “.\bin\”路径下查找 gcc.exe。
 
 下载地址：http://code.google.com/p/easymake/
 
 
-
-
-=Documentation=
+=Tutorial=
 
 ===Build with multi-source-file project===
 
@@ -60,12 +59,12 @@ int main(void)
 }
 }}}
 
- * The comment macro *"//!"* tells emake this is an EMake Macro, 
- * *mode* tells emake the output format is an executable file (It can be 'exe', 'dll', 'lib').
- * *out* tells emake the output file's name
- * *src* tells emake there are two source files(testmain.c and testsrc1.c)
- * *flag* tells emake to send "-O3" to gcc parameters in compiling
- * *link* tells emake to send "-lm" to gcc parameters in linking
+ * 宏 *"//!"* 告诉 emake该行使emake命令，后面是内容。
+ * *mode* 表示输出格式是exe（可执行文件），还可以是dll, lib, win。
+ * *out* 指明了输出文件的名字是 "testmain"
+ * *src* 指明工程中有两个源文件 (testmain.c 和 testsrc1.c)。
+ * *flag* 告诉emake在编译时，将 "-O3"参数传递给gcc。
+ * *link* 告诉emake在连接时，将"-lm"参数传递给gcc。
 
 
 *testsrc1.h:*
@@ -89,7 +88,7 @@ void foo(void)
 }
 }}}
 
-Then you can use emake to build this project:
+这时你就可以用emake来编译你的整个工程了: 
 {{{
 % python emake.py testmain.c
 compiling ...
@@ -98,27 +97,26 @@ testsrc1.c
 linking ...
 }}}
 
-Then you can run your executable file:
+这时你可以运行你的程序: 
 {{{
 % ./testmain
 This is foo
 }}}
 
-Actually EMake has done these things below for you:
+实际上Emake根据testmain.c里面的信息找到所有工程文件，进行作了如下事情：
 {{{
 gcc -O3 -c testmain.c -o testmain.o
 gcc -O3 -c testsrc1.c -o testsrc1.o
 gcc testmain.o testsrc1.o -o testmain -lm
 }}}
 
-Every time you call "emake.py testmain.c", it will check the timestamp of testmain.c and testsrc1.h (included by testmain.c) and timestamp of testmain.o, If they are earlier than testmain.o emake will skip compiling testmain.c.
+每次你调用 "emake.py testmain.c"时, 它都会检测testmain.c和testsrc1.h的文件时间戳并且对比testmain.o的时间戳，如果testmain.o的时间晚于前两个文件的时间戳，那么emake认为这个.o文件是最新的，可以跳过，不需要重新编译testmain.c。
 
-It is that emake will parse the source file and find what header files it included and what header files the header files included, and so on, at last emake will find all the header files involved by the source file. Emake can check whether to compile the source by the timestamp of these files and the timestamp of the obj file.
+Emake会分析源代码并用递归的方式扫描出该源代码所有的头文件依赖，并且根据这些依赖文件以及源代码本身的时间来判断是否需要重新编译该源代码。
 
 
 ===Intermediate Files Path===
-If you add a emake macro with *"//! int: PATH"* in testmain.c, emake will output obj files
-and other intermediate files into PATH，eg:
+如果你在testmain.c里面增加了emake宏"//! int: PATH"指明一个临时目录，emake会将所有编译的.o文件放到该临时目录下面，比如：
 {{{
 //! mode: exe
 //! int: obj
@@ -127,7 +125,7 @@ and other intermediate files into PATH，eg:
 //! src: testsrc1.c
 }}}
 
-emake will do these thing below for you:
+Emake会这样调用 gcc：
 {{{
 mkdir obj
 gcc -c testmain.c -o obj/testmain.o
@@ -135,30 +133,30 @@ gcc -c testsrc1.c -o obj/testsrc1.o
 gcc obj/testmain.o obj/testsrc1.o -o testmain
 }}}
 
-Note: *"src"* keywords can be used many times, all the files followed by each *"src"* will be involved in the project.
+注意，*src*关键字可以多次重复使用来定义一大堆项目文件。
 
 ===Easier Instructions===
 
-There is a main.c which contains the following comment lines as emake macro:
+如果在 main.c中包含了如下的 emake宏：
 
 {{{
 //! exe: source1.c, source2.c
 }}}
 
-It is same as these three instructions:
+则完全等价于下面的三行指令：
 {{{
 //! mode: exe
 //! int: obj
 //! src: source1.c, source2.c
 }}}
 
-If you used the keywords *exe/dll/clib/win* and followed by a file list (the list can be nothing '//!exe :\n'), emake will do the three things:
+如果你使用了关键字 *exe / dll / clib / win*并且后面跟随了文件列表以后（这个文件列表可以为空，比如*'//!exe :\n'*，Emake会将其解释成下面的操作：
 
- * set intermediate file folder to "obj"
- * set output mode to exe/dll/clib/win (*note: use clib to avoid conflicting with another keyword lib*)
- * set the source files to the project file list.
+ * 将临时目录设置到”./obj” 等同于：’//! int: obj’
+ * 将输出模式设置成exe/dll/lib/win其中的一个
+ * 将后面描述的文件加入项目文件列表
 
-and then do the following jobs for you:
+注意: 使用clib来代表编译成静态库模式是为了避免和设置链接库路径的关键字’lib’冲突，接着emake会做如下事情：
 
 {{{
 mkdir obj
@@ -176,7 +174,7 @@ gcc obj/main.o obj/source1.o obj/source2.o -o main
 //! exe: source1.c, source2.c
 }}}
 
-EMake will do these jobs below for you:
+EMake会为你执行如下指令:
 
 {{{
 mkdir obj
@@ -205,7 +203,7 @@ gcc obj/main.o obj/source1.o obj/source2.o -o main -lstdc++ -lpthread
 //! exe: src1, src2
 }}}
 
-EMake will do these jobs below for you:
+EMake会为你做如下事情:
 {{{
 mkdir obj
 gcc -I../ffmpeg/include -I../ogg/include -c src1.c -o obj/src1.o
@@ -214,3 +212,25 @@ gcc -I../ffmpeg/include -I../ogg/include -c main.c -o obj/main.o
 gcc -L../ffmpeg/lib -L../ogg/lib obj/src1.o obj/src2.o obj/main.o -o main
 }}}
 
+
+=Documentation=
+
+===src===
+
+作用：声明项目里面的源文件（主文件可以不声明）。
+格式：//! src: file1.c, file2.c, file3.cpp, file4.cpp
+注意：如果不想再一行中写太多源文件，可以用多行 *//! src:*来表示
+
+===inc===
+
+作用：声明项目的include目录。
+格式：//! inc: ../include, d:/local/dxsdk/include, ../../include
+
+===lib===
+
+作用：声明项目的library目录。
+格式：//! lib: ../lib, ../../lib
+
+===link===
+
+作用
